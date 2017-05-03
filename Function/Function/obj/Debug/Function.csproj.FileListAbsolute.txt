@@ -1,0 +1,6 @@
+D:\programs\GIT_C#\Function 3-th\Function\Function\bin\Debug\Function.exe.config
+D:\programs\GIT_C#\Function 3-th\Function\Function\bin\Debug\Function.exe
+D:\programs\GIT_C#\Function 3-th\Function\Function\bin\Debug\Function.pdb
+D:\programs\GIT_C#\Function 3-th\Function\Function\obj\Debug\Function.csprojResolveAssemblyReference.cache
+D:\programs\GIT_C#\Function 3-th\Function\Function\obj\Debug\Function.exe
+D:\programs\GIT_C#\Function 3-th\Function\Function\obj\Debug\Function.pdb

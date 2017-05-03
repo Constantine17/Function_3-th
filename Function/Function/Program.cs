@@ -10,6 +10,15 @@ namespace Function
     {
         static void Main(string[] args)
         {
+            double arg = 0;
+
+            //Function fun;
+            sin x = new sin("x");
+            
+
+            Console.WriteLine());
+            Console.ReadKey();
+
         }
     }
 }
