@@ -32,7 +32,7 @@ namespace Function
         }
         /// // Constructors }
 
-
+        /// // empty virtual functions {
         public virtual double ToCulc()
         {
             return 0;
@@ -49,8 +49,48 @@ namespace Function
         {
             return "";
         }
+        /// // empty virtual functions }
     }
     /// parent class /// }
+
+    /// constant /// {
+    class constant : Function
+    {
+        Function x;
+
+        /// // Constructors {
+        public constant(Function fun)
+        {
+            x = fun;
+        }
+        public constant(double arg)
+        {
+            x = new Function(arg);
+        }
+        public constant(string str)
+        {
+            x = new Function(str);
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return x.Arg;
+        }
+        public override string ToStr()
+        {
+            return x.Str;
+        }
+        public override double DiffCulc()
+        {
+            return 0;
+        }
+        public override string DiffStr()
+        {
+            return "";
+        }
+    }
+    /// const /// }
 
     /// SIN /// {
     class sin : Function
@@ -271,6 +311,7 @@ namespace Function
         }
         public override string ToStr()
         {
+            if (Regex.IsMatch(RArg.ToStr(), @"^-")) return LArg.ToStr() + RArg.ToStr(); // check of a sign sub
             return LArg.ToStr() + "+" + RArg.ToStr();
         }
         
@@ -280,9 +321,164 @@ namespace Function
         }
         public override string DiffStr()
         {
-            if (Regex.IsMatch(RArg.DiffStr(), @"^-")) return LArg.DiffStr() + RArg.DiffStr(); // check of a sign
+            if (Regex.IsMatch(RArg.DiffStr(), @"^-")) return LArg.DiffStr() + RArg.DiffStr(); // check of a sign sub
             return LArg.DiffStr() + "+" + RArg.DiffStr();
         }
-        
     }
+    /// ADD /// }
+    /// 
+
+    /// SUB /// {
+    class sub : Function
+    {
+        Function LArg;
+        Function RArg;
+        /// // Constructors {
+        public sub(Function Left, Function Right)
+        {
+            LArg = Left;
+            RArg = Right;
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return LArg.ToCulc() - RArg.ToCulc();
+        }
+        public override string ToStr()
+        {
+            if (Regex.IsMatch(RArg.ToStr(), @"^-"))
+            {   string substr = RArg.ToStr();
+                substr = substr.Substring(1);
+                return LArg.ToStr() +"+"+ substr; } // check of a sign sub
+            return LArg.ToStr() + "-" + RArg.ToStr();
+        }
+
+        public override double DiffCulc()
+        {
+            return LArg.DiffCulc() - RArg.DiffCulc();
+        }
+        public override string DiffStr()
+        {
+            if (Regex.IsMatch(RArg.DiffStr(), @"^-"))
+            {   string substr = RArg.DiffStr();
+                substr = substr.Substring(1);
+                return LArg.DiffStr() + "+" + substr;} // check of a sign sub
+            return LArg.DiffStr() + "-" + RArg.DiffStr();
+        }
+    }
+    /// SUB /// }
+    /// 
+    /// MUL /// {
+    class mul : Function
+    {
+        Function LArg;
+        Function RArg;
+        /// // Constructors {
+        public mul(Function Left, Function Right)
+        {
+            LArg = Left;
+            RArg = Right;
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return LArg.ToCulc() * RArg.ToCulc();
+        }
+        public override string ToStr()
+        {
+            if (Regex.IsMatch(RArg.ToStr(), @"^-"))
+            {
+                string substr = RArg.ToStr();
+                substr = substr.Substring(1);
+                return LArg.ToStr() + "*(" + substr+")";
+            } // check of a sign sub
+            return LArg.ToStr() + "*" + RArg.ToStr();
+        }
+
+        public override double DiffCulc()
+        {
+            return LArg.DiffCulc() * RArg.ToCulc() + RArg.DiffCulc() * LArg.ToCulc();
+        }
+        public override string DiffStr()
+        {
+            return "(" + LArg.DiffStr() + ") " + "* (" + RArg.ToStr() + ") " + "+ (" + LArg.ToStr() + ") " + "* (" + RArg.DiffStr() + ")";
+        }
+    }
+    /// MUL /// }
+    /// 
+
+    /// DIV /// {
+    class div : Function
+    {
+        Function LArg;
+        Function RArg;
+        /// // Constructors {
+        public div(Function Left, Function Right)
+        {
+            LArg = Left;
+            RArg = Right;
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return LArg.ToCulc() / RArg.ToCulc();
+        }
+        public override string ToStr()
+        {
+            if (Regex.IsMatch(RArg.ToStr(), @"^-"))
+            {
+                string substr = RArg.ToStr();
+                substr = substr.Substring(1);
+                return LArg.ToStr() + "/(" + substr + ")";
+            } // check of a sign sub
+            return LArg.ToStr() + "/" + RArg.ToStr();
+        }
+
+        public override double DiffCulc()
+        {
+            return (LArg.DiffCulc() * RArg.ToCulc() - RArg.DiffCulc() * LArg.ToCulc())/Math.Pow(RArg.DiffCulc(),2);
+        }
+        public override string DiffStr()
+        {
+            return "((" + LArg.DiffStr() + ") " + "* (" + RArg.ToStr() + ") " + "- (" + LArg.ToStr() + ") " + "* (" + RArg.DiffStr() + ")) / "+ RArg.ToStr() + "^2";
+        }
+    }
+    /// DIV /// }
+    /// 
+
+    class pow : Function
+    {
+        Function LArg;
+        Function RArg;
+        /// // Constructors {
+        public pow(Function Left, Function Right)
+        {
+            LArg = Left;
+            RArg = Right;
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return Math.Pow(LArg.ToCulc(), RArg.ToCulc());
+        }
+        public override string ToStr()
+        {
+            return LArg.ToStr() + "^" + RArg.ToStr();
+        }
+
+        public override double DiffCulc()
+        {
+            return RArg.ToCulc() * Math.Pow(LArg.ToCulc(),RArg.ToCulc());
+        }
+        public override string DiffStr()
+        {
+            double power = RArg.ToCulc() - 1;
+            return RArg.ToStr() + " * " + LArg.ToStr() + "^" + power;
+        }
+    }
+    /// DIV /// }
 }
