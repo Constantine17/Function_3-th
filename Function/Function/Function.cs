@@ -73,4 +73,85 @@ namespace Function
         }
     }
     /// SIN /// }
+    /// 
+
+    /// COS /// {
+    class cos : Function
+    {
+        Function x;
+
+        /// // Constructors {
+        public cos(Function fun)
+        {
+            x = fun;
+        }
+        public cos(double arg)
+        {
+            x = new Function(arg);
+        }
+        public cos(string str)
+        {
+            x = new Function(str);
+        }
+        /// // Constructors }
+
+        public double ToCulc()
+        {
+            return Math.Cos(x.Arg);
+        }
+        public string ToStr()
+        {
+            return "cos(" + x.Str + ")";
+        }
+        public double DiffCulc()
+        {
+            return -Math.Sin(x.Arg);
+        }
+        public string DiffStr()
+        {
+            return "-sin(" + x.Str + ")";
+        }
+    }
+    /// COS /// }
+    /// 
+
+
+    /// TAN /// {
+    class tan : Function
+    {
+        Function x;
+
+        /// // Constructors {
+        public tan(Function fun)
+        {
+            x = fun;
+        }
+        public tan(double arg)
+        {
+            x = new Function(arg);
+        }
+        public tan(string str)
+        {
+            x = new Function(str);
+        }
+        /// // Constructors }
+
+        public double ToCulc()
+        {
+            return Math.Tan(x.Arg);
+        }
+        public string ToStr()
+        {
+            return "tan(" + x.Str + ")";
+        }
+        public double DiffCulc()
+        {
+            return 1/(Math.Pow(Math.Cos(x.Arg),2));
+        }
+        public string DiffStr()
+        {
+            return "1/cos("+x.Str+")^2";
+        }
+    }
+    /// TAN /// }
 }
