@@ -32,6 +32,23 @@ namespace Function
         }
         /// // Constructors }
 
+
+        public virtual double ToCulc()
+        {
+            return 0;
+        }
+        public virtual string ToStr()
+        {
+            return "";
+        }
+        public virtual double DiffCulc()
+        {
+            return 0;
+        }
+        public virtual string DiffStr()
+        {
+            return "";
+        }
     }
     /// parent class /// }
 
@@ -55,19 +72,19 @@ namespace Function
         }
         /// // Constructors }
         
-        public double ToCulc()
+        public override double ToCulc()
         {
             return Math.Sin(x.Arg);
         }
-        public string ToStr()
+        public override string ToStr()
         {
             return "sin("+ x.Str + ")";
         }
-        public double DiffCulc()
+        public override double DiffCulc()
         {
             return Math.Cos(x.Arg);
         }
-        public string DiffStr()
+        public override string DiffStr()
         {
             return "cos(" + x.Str + ")";
         }
@@ -95,19 +112,19 @@ namespace Function
         }
         /// // Constructors }
 
-        public double ToCulc()
+        public override double ToCulc()
         {
             return Math.Cos(x.Arg);
         }
-        public string ToStr()
+        public override string ToStr()
         {
             return "cos(" + x.Str + ")";
         }
-        public double DiffCulc()
+        public override double DiffCulc()
         {
             return -Math.Sin(x.Arg);
         }
-        public string DiffStr()
+        public override string DiffStr()
         {
             return "-sin(" + x.Str + ")";
         }
@@ -136,22 +153,136 @@ namespace Function
         }
         /// // Constructors }
 
-        public double ToCulc()
+        public override double ToCulc()
         {
             return Math.Tan(x.Arg);
         }
-        public string ToStr()
+        public override string ToStr()
         {
             return "tan(" + x.Str + ")";
         }
-        public double DiffCulc()
+        public override double DiffCulc()
         {
             return 1/(Math.Pow(Math.Cos(x.Arg),2));
         }
-        public string DiffStr()
+        public override string DiffStr()
         {
             return "1/cos("+x.Str+")^2";
         }
     }
     /// TAN /// }
+    /// 
+
+    /// CTAN /// {
+    class ctan : Function
+    {
+        Function x;
+
+        /// // Constructors {
+        public ctan(Function fun)
+        {
+            x = fun;
+        }
+        public ctan(double arg)
+        {
+            x = new Function(arg);
+        }
+        public ctan(string str)
+        {
+            x = new Function(str);
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return 1/Math.Tan(x.Arg);
+        }
+        public override string ToStr()
+        {
+            return "ctan(" + x.Str + ")";
+        }
+        public override double DiffCulc()
+        {
+            return -1 / (Math.Pow(Math.Sin(x.Arg), 2));
+        }
+        public override string DiffStr()
+        {
+            return "-1/cos(" + x.Str + ")^2";
+        }
+    }
+    /// CTAN /// }
+    /// 
+    /// EXP /// {
+    class exp : Function
+    {
+        Function x;
+
+        /// // Constructors {
+        public exp(Function fun)
+        {
+            x = fun;
+        }
+        public exp(double arg)
+        {
+            x = new Function(arg);
+        }
+        public exp(string str)
+        {
+            x = new Function(str);
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return 1 / Math.Exp(x.Arg);
+        }
+        public override string ToStr()
+        {
+            return "exp(" + x.Str + ")";
+        }
+        public override double DiffCulc()
+        {
+            return 1 / Math.Exp(x.Arg); 
+        }
+        public override string DiffStr()
+        {
+            return "exp(" + x.Str + ")";
+        }
+    }
+    /// EXP /// }
+    /// 
+
+    /// ADD /// {
+    class add : Function
+    {
+        Function LArg;
+        Function RArg;
+        /// // Constructors {
+        public add(Function Left, Function Right)
+        {
+            LArg = Left;
+            RArg = Right;
+        }
+        /// // Constructors }
+
+        public override double ToCulc()
+        {
+            return LArg.ToCulc() + RArg.ToCulc();
+        }
+        public override string ToStr()
+        {
+            return LArg.ToStr() + "+" + RArg.ToStr();
+        }
+        
+        public override double DiffCulc()
+        {
+            return LArg.DiffCulc() + RArg.DiffCulc();
+        }
+        public override string DiffStr()
+        {
+            if (Regex.IsMatch(RArg.DiffStr(), @"^-")) return LArg.DiffStr() + RArg.DiffStr(); // check of a sign
+            return LArg.DiffStr() + "+" + RArg.DiffStr();
+        }
+        
+    }
 }
