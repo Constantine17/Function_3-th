@@ -13,10 +13,13 @@ namespace Function
             double arg = 0;
 
             //Function fun;
-            sin x = new sin("x");
-            
+            Function x = new Function("5");
+            sin sinx = new sin(x);
 
-            Console.WriteLine());
+            Console.WriteLine(sinx.ToStr());
+            Console.WriteLine(sinx.ToCulc());
+            Console.WriteLine(sinx.DiffStr());
+            Console.WriteLine(sinx.DiffCulc());
             Console.ReadKey();
 
         }

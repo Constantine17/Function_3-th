@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions; // test symbols
 
 namespace Function
 {
+    /// parent class /// {
     class Function
     {
         public double Arg { get; set; }
         public string Str { get; set; }
-        /*
-        public double diffArg;
-        public string diffStr;
-        */
 
         /// // Constructors {
         public Function()
@@ -29,13 +27,16 @@ namespace Function
         public Function(string str)
         {
             Str = str;
-            Arg = 0;
+            if (Regex.IsMatch(str, @"\D") == false || Regex.IsMatch(str, @"[,]")) Arg = Convert.ToDouble(str);
+            else Arg = 0; ;
         }
         /// // Constructors }
 
     }
+    /// parent class /// }
 
-    class sin: Function
+    /// SIN /// {
+    class sin : Function
     {
         Function x;
 
@@ -56,13 +57,20 @@ namespace Function
         
         public double ToCulc()
         {
-            Arg = x.Arg;
-            return Math.Sin(Arg);
+            return Math.Sin(x.Arg);
         }
         public string ToStr()
         {
-            Str = x.Str;
-            return "sin("+Str+")";
+            return "sin("+ x.Str + ")";
+        }
+        public double DiffCulc()
+        {
+            return Math.Cos(x.Arg);
+        }
+        public string DiffStr()
+        {
+            return "cos(" + x.Str + ")";
         }
     }
+    /// SIN /// }
 }
